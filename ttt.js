@@ -5,25 +5,80 @@
 */
 
 /* 
-1. Make a gameboard object.
-2. Store the gameboard as an array inside.
-3. Store your players in objects.
-4. Create an object to control the flow of the game.
+1. Make a gameboard object. DONE
+2. Store the gameboard as an array inside. DONE
+3. Store your players in objects. DONE
+4. Create an object to control the flow of the game. DONE
 */
 
-const Gameboard = function () {
-  const rows = 3;
-  const columns = 3;
-  const baord = [];
+const Gameboard = (() => {
+  const boardContainer = document.querySelector(".board");
+  const cells = document.querySelectorAll(".cell");
 
-  for (let i = 0; i < rows; i++) {
-    board[i] = [];
-    for (let j = 0; j < columns; j++) {
-      board[i].push(Cell());
-    }
-  }
+  const createCells = () => {
+    cells.forEach((cell, index) => {
+      cell.addEventListener("click", () => {
+        // Handle cell click event
+        gameController.playMove(index);
+      });
+    });
+  };
+
+  return { createCells };
+})();
+
+const Player = (name, symbol) => {
+  return { name, symbol };
 };
 
-const getboard = () => board;
+const gameController = (() => {
+  let currentPlayer;
+  let player1;
+  let player2;
+  let gameboard;
 
-const Gameplay = function () {};
+  const WINNING_COMBINATIONS = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8], // Rows
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8], // Columns
+    [0, 4, 8],
+    [2, 4, 6], // Diagonals
+  ];
+
+  const startGame = () => {
+    player1 = Player("Player 1", "X");
+    player2 = Player("Player 2", "O");
+    currentPlayer = player1;
+
+    gameboard = Gameboard;
+    gameboard.createCells();
+  };
+
+  const switchPlayer = () => {
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+  };
+
+  const playMove = (index) => {
+    // Logic for playing a move
+    console.log(`Player ${currentPlayer.symbol} clicked cell ${index}`);
+    switchPlayer();
+  };
+
+  return { startGame, playMove };
+})();
+
+gameController.startGame();
+
+/* const winningConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]; */
