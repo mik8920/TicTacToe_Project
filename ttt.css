@@ -13,3 +13,7 @@
   background-color: lightgray;
   cursor: pointer;
 }
+
+.pointer-events-none{
+  pointer-events: none;
+}
