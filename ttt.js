@@ -18,7 +18,14 @@ const Gameboard = (() => {
     });
   };
 
-  return { createCells, disableCell, cells };
+  const resetCell = () => {
+    cells.forEach((cell) => {
+      cell.textContent = "";
+      cell.addEventListener("click", Gameboard);
+    });
+  };
+
+  return { createCells, disableCell, cells, resetCell };
 })();
 
 const Player = (name, symbol) => {
@@ -55,7 +62,7 @@ const gameController = (() => {
       resultDisplay.textContent = "";
       gameOver = false;
       const cells = gameboard.cells;
-      cells[index].textContent = "";
+      gameboard.resetCell(index);
     };
 
     startBtn.addEventListener("click", () => {
@@ -112,5 +119,4 @@ const gameController = (() => {
 
 gameController.startGame();
 
-//restart button
 //form names
