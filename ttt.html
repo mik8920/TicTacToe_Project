@@ -8,19 +8,27 @@
   </head>
   <body>
     <h1>Tic Tac Toe Game</h1>
-    <div class="Game">
-<!--       <form id="gameForm" action="" method="POST">
-        <label for="player1">Player 1 Name:</label>
-        <input type="text" id="player1" placeholder="Player 1" />
-        <label for="player2">Player 2 Name:</label>
-        <input type="text" id="player2" placeholder="Player 2" />
-        <button class="submitBtn" type="submit" form="myform">Submit</button>
-      </form> -->
-
-      <button class="startBtn">Start Game</button>
-
-      <div class="resultDisplay"></div>
-
+    <div class="game">
+      <div class="formContainer">
+        <form id="gameForm" action="" method="POST">
+          <div class="inputContainer">
+            <label for="player1">Player 1:</label>
+            <input type="text" id="player1" placeholder="Helen" />
+          </div>
+          <div class="inputContainer">
+            <label for="player2">Player 2:</label>
+            <input type="text" id="player2" placeholder="John" />
+          </div>
+          <button class="submit" type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="displayContainer">
+        <div class="namesDisplay">
+          <div class="displayNames1"></div>
+          <div class="displayNames2"></div>
+        </div>
+        <div class="resultDisplay"></div>
+      </div>
       <div class="board-container">
         <div class="cell pointer-events-none" id="cell-0"></div>
         <div class="cell pointer-events-none" id="cell-1"></div>
@@ -32,6 +40,7 @@
         <div class="cell pointer-events-none" id="cell-7"></div>
         <div class="cell pointer-events-none" id="cell-8"></div>
       </div>
+      <button class="startBtn">New Game</button>
     </div>
     <script src="ttt.js"></script>
   </body>

@@ -2,6 +2,12 @@ const boardContainer = document.querySelector(".board-container");
 const cells = document.querySelectorAll(".cell");
 const resultDisplay = document.querySelector(".resultDisplay");
 const startBtn = document.querySelector(".startBtn");
+const form = document.getElementById("formContainer");
+const submitBtn = document.querySelector(".submit");
+let namesDisplay1 = document.querySelector(".displayNames1");
+let namesDisplay2 = document.querySelector(".displayNames2");
+const playerName1 = document.getElementById("player1");
+const playerName2 = document.getElementById("player2");
 
 const Gameboard = (() => {
   const createCells = () => {
@@ -51,19 +57,19 @@ const gameController = (() => {
     [2, 4, 6], // Diagonals
   ];
 
+  const newGame = (index) => {
+    resultDisplay.textContent = "";
+    gameOver = false;
+    const cells = gameboard.cells;
+    gameboard.resetCell(index);
+  };
+
   const startGame = () => {
-    player1 = Player("Mik", "X");
-    player2 = Player("Helen", "O");
+    player1 = Player(playerName1, "X");
+    player2 = Player(playerName2, "O");
     currentPlayer = player1;
     moves = 0;
     gameOver = false;
-
-    const newGame = (index) => {
-      resultDisplay.textContent = "";
-      gameOver = false;
-      const cells = gameboard.cells;
-      gameboard.resetCell(index);
-    };
 
     startBtn.addEventListener("click", () => {
       startGame();
@@ -71,6 +77,41 @@ const gameController = (() => {
         newGame();
         cell.classList.remove("pointer-events-none");
       });
+      form.style.display = "block";
+      playerName1.value = "";
+      playerName2.value = "";
+      namesDisplay1.style.display = "none";
+      namesDisplay2.style.display = "none";
+    });
+
+    const setValidationError = (playerName1, playerName2) => {
+      if (playerName1.value === "" || playerName2.value === "") {
+        playerName1.setCustomValidity("Please enter both player names.");
+        playerName2.setCustomValidity("Please enter both player names.");
+      }
+    };
+
+    const formIsValid = (playerName1, playerName2) => {
+      if (playerName1.value === "" || playerName2.value === "") {
+        return false;
+      }
+      return true;
+    };
+
+    submitBtn.addEventListener("click", (event) => {
+      if (!formIsValid(playerName1, playerName2)) {
+        setValidationError(playerName1, playerName2);
+        return;
+      }
+      event.preventDefault();
+      if (submitBtn === false) {
+        gameboard.disableCell(index);
+      } else if (submitBtn === true) {
+        form.style.display = "none";
+        namesDisplay1.textContent = playerName1.value;
+        namesDisplay2.textContent = playerName2.value;
+      }
+      startGame();
     });
 
     gameboard = Gameboard;
@@ -104,7 +145,7 @@ const gameController = (() => {
         cells[a].textContent === cells[b].textContent &&
         cells[a].textContent === cells[c].textContent
       ) {
-        resultDisplay.textContent = `${currentPlayer.name} is the winner!`;
+        resultDisplay.textContent = `${currentPlayer.name.value} is the winner!`;
         gameOver = true;
         return;
       }
@@ -119,4 +160,7 @@ const gameController = (() => {
 
 gameController.startGame();
 
-//form names
+//όταν παίζεις χαλάει η css στο formContainer
+//όταν πατάς το submit δεν εξαφανίζεται η φόρμα όπως πριν
+//όταν πατάς το newGame (startBtn)
+//δεν εμφανίζονται τα ονόματα των παιχτών

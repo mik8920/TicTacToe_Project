@@ -3,6 +3,7 @@
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: repeat(3, 100px);
   gap: 5px;
+  justify-content: center;
 }
 
 .cell {
@@ -14,6 +15,111 @@
   cursor: pointer;
 }
 
-.pointer-events-none{
+.pointer-events-none {
   pointer-events: none;
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.822);
+  text-align: center;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.game {
+  display: grid;
+  gap: 50px;
+  justify-items: center;
+}
+
+h1 {
+  background-color: rgba(0, 0, 0, 0.151);
+  padding: 20px;
+  margin: 0;
+  color: rgba(210, 255, 251, 0.849);
+  text-shadow: 3px 3px 9px rgb(198, 244, 252);
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+  font-size: 2em;
+}
+
+label {
+  color: rgb(205, 240, 241);
+  font-size: 1em;
+  font-weight: 900;
+}
+
+input {
+  font-size: 100%;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  width: 150px;
+  height: 20px;
+}
+
+.submit {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  width: 80px;
+  height: 25px;
+  background-color: rgba(131, 180, 178, 0.781);
+  font-weight: 900;
+  font-size: 1em;
+  color: rgba(255, 255, 255, 0.89);
+}
+
+.formContainer {
+  padding: 50px;
+}
+
+#gameForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.startBtn {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  width: 120px;
+  height: 60px;
+  background-color: rgba(131, 180, 178, 0.781);
+  font-weight: 900;
+  font-size: 1.2em;
+  color: rgba(255, 255, 255, 0.89);
+}
+
+.resultDisplay {
+  background-color: rgba(226, 243, 242, 0.849);
+  width: 310px;
+  height: 30px;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.808);
+}
+
+.displayNames1,
+.displayNames2 {
+  background-color: rgba(226, 243, 242, 0.849);
+  width: 150px;
+  height: 30px;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.808);
+}
+
+.displayContainer {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.namesDisplay {
+  display: flex;
+  gap: 10px;
 }
