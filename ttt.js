@@ -8,6 +8,7 @@ let namesDisplay1 = document.querySelector(".displayNames1");
 let namesDisplay2 = document.querySelector(".displayNames2");
 const playerName1 = document.getElementById("player1");
 const playerName2 = document.getElementById("player2");
+const formContainer = document.querySelector(".formContainer")
 
 const Gameboard = (() => {
   const createCells = () => {
@@ -65,8 +66,8 @@ const gameController = (() => {
   };
 
   const startGame = () => {
-    player1 = Player(playerName1, "X");
-    player2 = Player(playerName2, "O");
+    player1 = Player(playerName1.value, "X");
+    player2 = Player(playerName2.value, "O");
     currentPlayer = player1;
     moves = 0;
     gameOver = false;
@@ -77,7 +78,7 @@ const gameController = (() => {
         newGame();
         cell.classList.remove("pointer-events-none");
       });
-      form.style.display = "block";
+      formContainer.style.display = "block";
       playerName1.value = "";
       playerName2.value = "";
       namesDisplay1.style.display = "none";
@@ -107,7 +108,7 @@ const gameController = (() => {
       if (submitBtn === false) {
         gameboard.disableCell(index);
       } else if (submitBtn === true) {
-        form.style.display = "none";
+        formContainer.style.display = "none";
         namesDisplay1.textContent = playerName1.value;
         namesDisplay2.textContent = playerName2.value;
       }
