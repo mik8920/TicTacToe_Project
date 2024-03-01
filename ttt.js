@@ -8,7 +8,7 @@ let namesDisplay1 = document.querySelector(".displayNames1");
 let namesDisplay2 = document.querySelector(".displayNames2");
 const playerName1 = document.getElementById("player1");
 const playerName2 = document.getElementById("player2");
-const formContainer = document.querySelector(".formContainer")
+const formContainer = document.querySelector(".formContainer");
 
 const Gameboard = (() => {
   const createCells = () => {
@@ -72,6 +72,12 @@ const gameController = (() => {
     moves = 0;
     gameOver = false;
 
+    const enableCells = () => {
+      cells.forEach((cell) => {
+        newGame();
+        cell.classList.remove("pointer-events-none");
+      });
+    };
     startBtn.addEventListener("click", () => {
       startGame();
       cells.forEach((cell) => {
@@ -98,22 +104,20 @@ const gameController = (() => {
       }
       return true;
     };
-
-    submitBtn.addEventListener("click", (event) => {
+    function submitButtonClickListener(event) {
       if (!formIsValid(playerName1, playerName2)) {
         setValidationError(playerName1, playerName2);
         return;
       }
       event.preventDefault();
-      if (submitBtn === false) {
-        gameboard.disableCell(index);
-      } else if (submitBtn === true) {
-        formContainer.style.display = "none";
-        namesDisplay1.textContent = playerName1.value;
-        namesDisplay2.textContent = playerName2.value;
-      }
+
+      formContainer.style.display = "none";
+      namesDisplay1.textContent = playerName1.value;
+      namesDisplay2.textContent = playerName2.value;
+      enableCells();
       startGame();
-    });
+    }
+    submitBtn.addEventListener("click", submitButtonClickListener);
 
     gameboard = Gameboard;
     gameboard.createCells();
@@ -161,6 +165,5 @@ const gameController = (() => {
 
 gameController.startGame();
 
-//όταν πατάς το submit δεν εξαφανίζεται η φόρμα όπως πριν
 //πατάς το new game button χωρίς να έχεις βάλει ονόματα
-//δεν εμφανίζονται τα ονόματα των παιχτών
+//δεν εμφανίζονται τα ονόματα των παιχτών στο resultDisplay
