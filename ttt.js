@@ -161,7 +161,6 @@ const gameController = (() => {
 
 gameController.startGame();
 
-//όταν παίζεις χαλάει η css στο formContainer
 //όταν πατάς το submit δεν εξαφανίζεται η φόρμα όπως πριν
-//όταν πατάς το newGame (startBtn)
+//πατάς το new game button χωρίς να έχεις βάλει ονόματα
 //δεν εμφανίζονται τα ονόματα των παιχτών
