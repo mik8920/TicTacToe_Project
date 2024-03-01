@@ -79,9 +79,12 @@ const gameController = (() => {
       });
     };
     startBtn.addEventListener("click", () => {
+      if (!formIsValid(playerName1, playerName2)) {
+        return;
+      }
       startGame();
       cells.forEach((cell) => {
-        newGame();
+        newGame(index);
         cell.classList.remove("pointer-events-none");
       });
       formContainer.style.display = "block";
@@ -150,14 +153,16 @@ const gameController = (() => {
         cells[a].textContent === cells[b].textContent &&
         cells[a].textContent === cells[c].textContent
       ) {
-        resultDisplay.textContent = `${currentPlayer.name.value} is the winner!`;
+        resultDisplay.textContent = `${currentPlayer.name} is the winner!`;
         gameOver = true;
+        cells.forEach((cell) => cell.classList.add("pointer-events-none"));
         return;
       }
     }
     if (moves === 9) {
       resultDisplay.textContent = "It's a tie!";
       gameOver = true;
+      cells.forEach((cell) => cell.classList.add("pointer-events-none"));
     }
   };
   return { startGame, playMove, winCheck };
@@ -166,4 +171,3 @@ const gameController = (() => {
 gameController.startGame();
 
 //πατάς το new game button χωρίς να έχεις βάλει ονόματα
-//δεν εμφανίζονται τα ονόματα των παιχτών στο resultDisplay
