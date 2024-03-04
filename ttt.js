@@ -13,35 +13,38 @@ const formContainer = document.querySelector(".formContainer");
 const Gameboard = (() => {
   const createCells = () => {
     cells.forEach((cell) => {
-      cell.addEventListener("click", () => {
-        gameController.playMove();
+      cell.addEventListener("click", (e) => {
+        // Extract the index of the cell from its id e.g. 0 from cell-0
+        cellIndex = e.target.id.split("-")[1];
+        gameController.playMove(cellIndex);
       });
     });
   };
 
-  const disableCell = () => {
-    cells.forEach((cell) => {
-      cell.removeEventListener("click", () => {
-        gameController.playMove();
-      });
-    });
+  const disableCell = (cellIndex) => {
+    cells[cellIndex].classList.add("pointer-events-none");
   };
 
   const resetCell = () => {
     cells.forEach((cell) => {
       cell.textContent = "";
-      cell.addEventListener("click", Gameboard);
     });
   };
 
-  return { createCells, disableCell, cells, resetCell };
+  const enableCells = () => {
+    cells.forEach((cell) => {
+      cell.classList.remove("pointer-events-none");
+    });
+  };
+
+  return { createCells, disableCell, resetCell, enableCells };
 })();
 
 const Player = (name, symbol) => {
   return { name, symbol };
 };
 
-const gameController = (() => {
+const gameController = (function () {
   let currentPlayer;
   let player1;
   let player2;
@@ -50,22 +53,24 @@ const gameController = (() => {
   let gameOver = false;
 
   const winConditions = [
+    // Rows
     [0, 1, 2],
     [3, 4, 5],
-    [6, 7, 8], // Rows
+    [6, 7, 8],
+    // Columns
     [0, 3, 6],
     [1, 4, 7],
-    [2, 5, 8], // Columns
+    [2, 5, 8],
+    // Diagonals
     [0, 4, 8],
-    [2, 4, 6], // Diagonals
+    [2, 4, 6],
   ];
 
-  const newGame = () => {
+  function restartGame() {
     resultDisplay.textContent = "";
     gameOver = false;
-    const cells = gameboard.cells;
     gameboard.resetCell();
-  };
+  }
 
   const startGame = () => {
     player1 = Player(playerName1.value, "X");
@@ -74,19 +79,13 @@ const gameController = (() => {
     moves = 0;
     gameOver = false;
 
-    const enableCells = () => {
-      cells.forEach((cell) => {
-        newGame();
-        cell.classList.remove("pointer-events-none");
-      });
-    };
     startBtn.addEventListener("click", () => {
       if (!formIsValid(playerName1, playerName2)) {
         return;
       }
       startGame();
       cells.forEach((cell) => {
-        newGame();
+        restartGame();
         cell.classList.remove("pointer-events-none");
       });
       formContainer.style.display = "block";
@@ -119,41 +118,33 @@ const gameController = (() => {
       formContainer.style.display = "none";
       namesDisplay1.textContent = playerName1.value;
       namesDisplay2.textContent = playerName2.value;
-      enableCells();
+      gameboard.enableCells();
       startGame();
     }
     submitBtn.addEventListener("click", submitButtonClickListener);
 
-    gameboard = Gameboard;
-    gameboard.createCells();
+    
+    Gameboard.createCells();
   };
 
   const switchPlayer = () => {
-    currentPlayer = currentPlayer === player1 ? player2 : player1;
+    currentPlayer = currentPlayer.name === player1.name ? player2 : player1;
   };
 
-  const playMove = () => {
-    const cells = gameboard.cells;
-    if (!gameOver) {
-      for (let i = 0; i < cells.length; i++) {
-        if (!cells[i].textContent) {
-          cells[i].textContent = currentPlayer.symbol;
-          moves++;
-          gameboard.disableCell();
-          winCheck();
-          if (!gameOver) {
-            switchPlayer();
-          }
-          break;
-        }
-      }
+  const playMove = (cellIndex) => {
+    console.log(currentPlayer)
+    if (!gameOver ) {
+      cells[cellIndex].textContent = currentPlayer.symbol;
+      moves++;
+      gameboard.disableCell(cellIndex);
+      winCheck();
+      switchPlayer();
     }
   };
 
   const winCheck = () => {
-    const cells = gameboard.cells;
-    for (let i = 0; i < 8; i++) {
-      const condition = winConditions[i];
+    for (let i = 1; i < cells.length; i++) {
+      const condition = winConditions[i - 1];
       const [a, b, c] = condition;
       if (
         cells[a].textContent &&
@@ -176,5 +167,3 @@ const gameController = (() => {
 })();
 
 gameController.startGame();
-
-//πατάς το new game button χωρίς να έχεις βάλει ονόματα
