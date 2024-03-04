@@ -12,16 +12,18 @@ const formContainer = document.querySelector(".formContainer");
 
 const Gameboard = (() => {
   const createCells = () => {
-    cells.forEach((cell, index) => {
+    cells.forEach((cell) => {
       cell.addEventListener("click", () => {
-        gameController.playMove(index);
+        gameController.playMove();
       });
     });
   };
 
-  const disableCell = (index) => {
-    cells[index].removeEventListener("click", () => {
-      gameController.playMove(index);
+  const disableCell = () => {
+    cells.forEach((cell) => {
+      cell.removeEventListener("click", () => {
+        gameController.playMove();
+      });
     });
   };
 
@@ -58,11 +60,11 @@ const gameController = (() => {
     [2, 4, 6], // Diagonals
   ];
 
-  const newGame = (index) => {
+  const newGame = () => {
     resultDisplay.textContent = "";
     gameOver = false;
     const cells = gameboard.cells;
-    gameboard.resetCell(index);
+    gameboard.resetCell();
   };
 
   const startGame = () => {
@@ -84,7 +86,7 @@ const gameController = (() => {
       }
       startGame();
       cells.forEach((cell) => {
-        newGame(index);
+        newGame();
         cell.classList.remove("pointer-events-none");
       });
       formContainer.style.display = "block";
@@ -130,15 +132,20 @@ const gameController = (() => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
   };
 
-  const playMove = (index) => {
+  const playMove = () => {
     const cells = gameboard.cells;
-    if (!gameOver && !cells[index].textContent) {
-      cells[index].textContent = currentPlayer.symbol;
-      moves++;
-      gameboard.disableCell(index);
-      winCheck();
-      if (!gameOver) {
-        switchPlayer();
+    if (!gameOver) {
+      for (let i = 0; i < cells.length; i++) {
+        if (!cells[i].textContent) {
+          cells[i].textContent = currentPlayer.symbol;
+          moves++;
+          gameboard.disableCell();
+          winCheck();
+          if (!gameOver) {
+            switchPlayer();
+          }
+          break;
+        }
       }
     }
   };
