@@ -71,9 +71,10 @@ const gameController = (function () {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
   };
 
-  const resetMoveCount = () => {
-    moves = 0
-  }
+  const resetGameVar = () => {
+    moves = 0;
+    currentPlayer=player1
+  };
 
   const playMove = (cellIndex) => {
     console.log(currentPlayer);
@@ -108,13 +109,13 @@ const gameController = (function () {
     }
   };
 
-  return { playMove, isFirstGame,resetMoveCount };
+  return { playMove, isFirstGame, resetGameVar };
 })();
 
 const restartGame = () => {
   resultDisplay.textContent = "";
   gameOver = false;
-  gameController.resetMoveCount()
+  gameController.resetGameVar();
   Gameboard.resetCells();
 };
 
@@ -127,11 +128,11 @@ const restartGame = () => {
 
 startBtn.addEventListener("click", () => {
   if (!gameController.isFirstGame) {
-  restartGame();
-}else{
-  Gameboard.addCellEventListener();
-  gameController.isFirstGame = false
-}
+    restartGame();
+  } else {
+    Gameboard.addCellEventListener();
+    gameController.isFirstGame = false;
+  }
   cells.forEach((cell) => {
     cell.classList.remove("pointer-events-none");
   });
