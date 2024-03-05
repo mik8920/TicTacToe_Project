@@ -65,6 +65,7 @@ input {
   font-weight: 900;
   font-size: 1em;
   color: rgba(255, 255, 255, 0.89);
+  cursor: pointer;
 }
 
 .formContainer {
@@ -87,6 +88,7 @@ input {
   font-weight: 900;
   font-size: 1.2em;
   color: rgba(255, 255, 255, 0.89);
+  cursor: pointer;
 }
 
 .resultDisplay {
@@ -122,4 +124,19 @@ input {
 .namesDisplay {
   display: flex;
   gap: 10px;
+}
+
+.namesDisplay p {
+  margin: 0;
+  padding: 0;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
+  font-size: 0.8em;
+}
+
+.display1,
+.display2 {
+  display: flex;
+  flex-direction: column;
+  gap:4px;
 }
