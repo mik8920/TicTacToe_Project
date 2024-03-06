@@ -21,12 +21,17 @@ const Gameboard = (() => {
     });
   };
 
-  /*     const enableCell = () => {
+  const enableCells = () => {
     cells.forEach((cell) => {
       cell.classList.remove("pointer-events-none");
-      console.log("cells are enabled");
     });
-  }; */
+  };
+
+  const disableCells = () => {
+    cells.forEach((cell) => {
+      cell.classList.add("pointer-events-none");
+    });
+  };
 
   const disableCell = (cellIndex) => {
     cells[cellIndex].classList.add("pointer-events-none");
@@ -38,7 +43,13 @@ const Gameboard = (() => {
     });
   };
 
-  return { addCellEventListener, /* enableCell */ disableCell, resetCells };
+  return {
+    addCellEventListener,
+    disableCell,
+    resetCells,
+    enableCells,
+    disableCells,
+  };
 })();
 
 const Player = (name, symbol) => {
@@ -115,30 +126,26 @@ const gameController = (function () {
 
 const restartGame = () => {
   resultDisplay.textContent = "";
+  Gameboard.disableCells();
   gameController.resetGameVar();
   Gameboard.resetCells();
+  resetForm();
 };
 
-/*   formContainer.style.display = "block";
-  playerName1.value = "";
-  playerName2.value = "";
-  namesDisplay1.style.display = "none";
-  namesDisplay2.style.display = "none";
-}; */
-
 startBtn.addEventListener("click", () => {
-  if (!gameController.isFirstGame) {
+  if (
+    !gameController.isFirstGame ||
+    gameController.gameOver ||
+    gameController.moves > 0
+  ) {
     restartGame();
   } else {
     Gameboard.addCellEventListener();
     gameController.isFirstGame = false;
   }
-  cells.forEach((cell) => {
-    cell.classList.remove("pointer-events-none");
-  });
 });
 
-/* const setValidationError = (playerName1, playerName2) => {
+const setValidationError = (playerName1, playerName2) => {
   if (playerName1.value === "" || playerName2.value === "") {
     playerName1.setCustomValidity("Please enter both player names.");
     playerName2.setCustomValidity("Please enter both player names.");
@@ -150,4 +157,35 @@ const formIsValid = (playerName1, playerName2) => {
     return false;
   }
   return true;
-}; */
+};
+
+function submitButtonClickListener(event) {
+  if (!formIsValid(playerName1, playerName2)) {
+    setValidationError(playerName1, playerName2);
+    return;
+  }
+  event.preventDefault();
+  submitForm();
+}
+submitBtn.addEventListener("click", submitButtonClickListener);
+
+const resetForm = () => {
+  formContainer.style.display = "block";
+  playerName1.value = "";
+  playerName2.value = "";
+  namesDisplay1.style.display = "block";
+  namesDisplay2.style.display = "block";
+};
+
+const submitForm = () => {
+  if (!gameController.isFirstGame) {
+    restartGame();
+  } else {
+    Gameboard.addCellEventListener();
+    gameController.isFirstGame = false;
+  }
+  Gameboard.enableCells();
+  namesDisplay1.textContent = playerName1.value;
+  namesDisplay2.textContent = playerName2.value;
+  formContainer.style.display = "none";
+};
