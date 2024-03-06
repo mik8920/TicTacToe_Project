@@ -73,7 +73,8 @@ const gameController = (function () {
 
   const resetGameVar = () => {
     moves = 0;
-    currentPlayer=player1
+    currentPlayer = player1;
+    gameOver = false;
   };
 
   const playMove = (cellIndex) => {
@@ -114,7 +115,6 @@ const gameController = (function () {
 
 const restartGame = () => {
   resultDisplay.textContent = "";
-  gameOver = false;
   gameController.resetGameVar();
   Gameboard.resetCells();
 };
