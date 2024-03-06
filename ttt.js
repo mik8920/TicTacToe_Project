@@ -57,8 +57,8 @@ const Player = (name, symbol) => {
 };
 
 const gameController = (function () {
-  let player1 = Player("playerName1.value", "X");
-  let player2 = Player("playerName2.value", "O");
+  let player1 = Player(playerName1.value, "X");
+  let player2 = Player(playerName2.value, "O");
   let currentPlayer = player1;
   let isFirstGame = true;
   let moves = 0;
@@ -133,11 +133,7 @@ const restartGame = () => {
 };
 
 startBtn.addEventListener("click", () => {
-  if (
-    !gameController.isFirstGame ||
-    gameController.gameOver ||
-    gameController.moves > 0
-  ) {
+  if (!gameController.isFirstGame) {
     restartGame();
   } else {
     Gameboard.addCellEventListener();
